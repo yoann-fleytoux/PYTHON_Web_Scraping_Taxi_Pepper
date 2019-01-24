@@ -1,0 +1,18 @@
+topic: ~Taxi()
+language: frf
+include: lexicon_frf.top
+
+dynamic: cities
+dynamic: postalCodes
+
+#si ce dialogue foire, faire dire à l'oral le nom de la ville (même code que pour les prénoms) et le numero du code postal
+
+concept: (taxiAsked) ["Peut tu me montrer" "J'aimerai voir" "Ziggy montre moi" "Montre moi" "Je voudrais voir" "Quels sont" "je voudrais consulter" "Affiche" "Affiche moi" {["les taxis" "les services de taxis"]}]
+
+concept: (departments) ["Languedoc-Roussillon" "Basse-Normandie" "Lorraine" "Poitou-Charentes" "Nord-Pas-de-Calais" "Guadeloupe" "Centre" "Bretagne" "Provence-Alpes-Côte d'Azur" "Bourgogne" "Aquitaine" "Auvergne" "Alsace" "Martinique" "Île-de-France" "Corse" "Mayotte" "Guyane" "Pays de la Loire" "Limousin" "Rhône-Alpes" "La Réunion" "Haute-Normandie" "Picardie" "Champagne-Ardenne" "Franche-Comté" "Saint-Pierre-et-Miquelon" "Midi-Pyrénées"]
+
+u:(~taxiAsked) Dans quel Département voulez vous rechercher? 
+	u1: (_~departments) Dans quelle ville voulez vous rechercher? $SetCityWithDepartment=1 
+		u2: (_~cities) J'effectue ta recherche, si tu veux filtrer les résultats avec un code postal, dis le code postal, sinon dis non  $SetCity=$1
+			u3: (_~postalCodes) Très bien je filtre les résultats $SetPostalCode=$1
+			u3: (Non) Ok, je ne filtre pas ta recherche.
